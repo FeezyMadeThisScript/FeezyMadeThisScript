@@ -1,0 +1,95 @@
+local GUI = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local StartButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+GUI.Name = "YNCThaBronxGUI"
+GUI.Parent = game.CoreGui
+
+Frame.Parent = GUI
+Frame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+Frame.Position = UDim2.new(0.5, -250, 0.5, -250)
+Frame.Size = UDim2.new(0.5, 0, 0.5, 0)
+Frame.Draggable = true
+Frame.Active = true
+
+Title.Parent = Frame
+Title.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+Title.Position = UDim2.new(0, 0, 0, 0)
+Title.Size = UDim2.new(1, 0, 0.1, 0)
+Title.Font = Enum.Font.SourceSansBold
+Title.Text = "Feezy's Gun Mod Script"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextScaled = true
+
+StartButton.Parent = Frame
+StartButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+StartButton.Position = UDim2.new(0, 0, 0.2, 0)
+StartButton.Size = UDim2.new(1, 0, 0.2, 0)
+StartButton.Font = Enum.Font.SourceSansBold
+StartButton.Text = "GunMod"
+StartButton.TextColor3 = Color3.new(1, 1, 1)
+StartButton.TextScaled = true
+StartButton.MouseButton1Click:Connect(function()
+    for i,v in game.Players.LocalPlayer.Backpack:GetChildren() do
+        if v:IsA("Tool") and v:FindFirstChild("GunScript_Server") then
+            require(v.Setting).Auto = true
+            require(v.Setting).LimitedAmmoEnabled = false
+            require(v.Setting).Ammo = 8000
+            require(v.Setting).MaxAmmo = 8000
+            require(v.Setting).AmmoPerMag = 8000
+            require(v.Setting).ReloadTime = 0
+            require(v.Setting).Accuracy = 1
+            require(v.Setting).BaseDamage = 9000
+            require(v.Setting).Range = 1000
+            require(v.Setting).JamChance = 0
+            require(v.Setting).FireRate = 0
+            require(v.Setting).Recoil = 0
+        end
+    end
+
+    wait(0.2)
+game.StarterGui:SetCore("SendNotification", {
+Title = "YNC Hub"; -- the title 
+Text = ".gg/eKwNBXVSeA"; -- what the text says 
+Duration = 300; -- how long the notification should in secounds
+})
+
+
+    -- Copy the Discord invite to the clipboard and display the second notification
+    setclipboard("https://discord.gg/eKwNBXVSeA")
+    notification = Instance.new("Hint")
+    notification.Name = "Notification"
+    notification.Parent = GUI
+    notification.Text = "Discord Copied To ClipBoard"
+    wait(1)
+    notification:Destroy()
+end)
+
+UICorner.Parent = Frame
+UICorner.CornerRadius = UDim.new(0.1, 0)
+
+-- Keybinding to hide/unhide the GUI
+local toggleKey = "LeftAlt"
+local keyDown = false
+
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode[toggleKey] then
+        keyDown = not keyDown
+        Frame.Visible = keyDown
+    end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode[toggleKey] then
+        keyDown = false
+    end
+end)
+
+game:GetService("UserInputService").KeyUp:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode[toggleKey] then
+        keyDown = false
+        Frame.Visible = false
+    end
+end)
